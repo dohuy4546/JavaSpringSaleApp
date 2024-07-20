@@ -1,27 +1,61 @@
+
 <%-- 
     Document   : index
-    Created on : Jul 13, 2024, 2:17:57 PM
+    Created on : Jul 13, 2024, 1:15:52 PM
     Author     : admin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>\
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Quan ly ban hang</title>
-    </head>
-    <body>
-        <ul>
-            <c:forEach items="${cates}" var="c">
-                <li>${c.name}</li>
-            </c:forEach>
-        </ul>
-         <ul>
-            <c:forEach items="${prods}" var="p">
-                <li>${p.name}</li>
-            </c:forEach>
-        </ul>
-    </body>
-</html>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<section class="container">
+    <a href="<c:url value="/products" />" class="btn btn-info">Thêm sản phẩm</a>
+    <div class="row">
+        <div class="col-md-3 col-12 bg-secondary">
+            <c:url value="/" var="action" />
+            <form action="${action}">
+                <div class="mb-3 mt-3">
+                    <label for="q" class="form-label">Từ khóa:</label>
+                    <input type="search" class="form-control" id="q" placeholder="Từ khóa..." name="q">
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="fromPrice" class="form-label">Từ giá:</label>
+                    <input type="number" class="form-control" id="fromPrice" placeholder="Từ giá..." name="fromPrice">
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="toPrice" class="form-label">Đến giá:</label>
+                    <input type="number" class="form-control" id="toPrice" placeholder="Đến giá..." name="toPrice">
+                </div>
+                <div class="mb-3 mt-3">
+                    <input type="submit" class="btn btn-success" value="Tìm SP" />
+                </div>
+            </form>
+        </div>
+        <div class="col-md-9 col-12">
+            <table class="table table-striped">
+                <tr>
+                    <th></th>
+                    <th>Id</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Gía bán</th>
+                    <th></th>
+                </tr>
+                <c:forEach items="${prods}" var="p">
+                    <tr>
+                        <td>
+                            <img width="120" src="${p.image}" alt="${p.name}" />
+                        </td>
+                        <td>${p.id}</td>
+                        <td>${p.name}</td>
+                        <td>${String.format("%,d", p.price)} VND</td>
+                        <td>
+                            <a href="#" class="btn btn-info">&#128394;</a>
+                            <button class="btn btn-danger">&times;</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </div>
+</section>
+

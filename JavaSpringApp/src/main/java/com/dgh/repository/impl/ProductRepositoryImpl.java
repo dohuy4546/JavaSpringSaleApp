@@ -1,6 +1,7 @@
 package com.dgh.repository.impl;
 
 import com.dgh.pojo.Product;
+import com.dgh.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class ProductRepositoryImpl {
+public class ProductRepositoryImpl implements ProductRepository {
     @Autowired
     private LocalSessionFactoryBean factory;
     private static final int PAGE_SIZE = 4;
 
+    @Override
     public List<Product> getProducts(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
@@ -54,9 +56,9 @@ public class ProductRepositoryImpl {
                 predicates.add(p3);
             }
 
-            String cate_id = params.get("cate_id");
+            String cate_id = params.get("cateId");
             if (cate_id != null && !cate_id.isEmpty()) {
-                Predicate p4 = b.equal(root.get("category"), Integer.parseInt(cate_id));
+                Predicate p4 = b.equal(root.get("categoryId"), Integer.parseInt(cate_id));
                 predicates.add(p4);
             }
             q.where(predicates.toArray(Predicate[]::new));
@@ -75,6 +77,7 @@ public class ProductRepositoryImpl {
 
     }
 
+    @Override
     public void addOrUpdate(Product p) {
         Session s = this.factory.getObject().getCurrentSession();
         if (p.getId() != null) {
@@ -85,6 +88,7 @@ public class ProductRepositoryImpl {
 
     }
 
+    @Override
     public Product getProduct(int id) {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Product.class, id);
