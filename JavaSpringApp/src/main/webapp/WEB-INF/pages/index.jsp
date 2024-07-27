@@ -41,7 +41,7 @@
                     <th></th>
                 </tr>
                 <c:forEach items="${prods}" var="p">
-                    <tr>
+                    <tr id="product${p.id}">
                         <td>
                             <img width="120" src="${p.image}" alt="${p.name}" />
                         </td>
@@ -49,8 +49,11 @@
                         <td>${p.name}</td>
                         <td>${String.format("%,d", p.price)} VND</td>
                         <td>
-                            <a href="#" class="btn btn-info">&#128394;</a>
-                            <button class="btn btn-danger">&times;</button>
+                            <c:url value="/products/${p.id}" var="u" />
+                            <a href="${u}" class="btn btn-success">&orarr;</a>
+                            
+                            <c:url value="/api/products/${p.id}" var="uD" />
+                            <button onclick="deleteProduct('${uD}', ${p.id})" class="btn btn-danger">&times;</button>
                         </td>
                     </tr>
                 </c:forEach>

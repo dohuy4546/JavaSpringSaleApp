@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
@@ -25,7 +26,23 @@
                         <a class="nav-link" href="${cateUrl}">${c.name}</a>
                     </li>
                 </c:forEach>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/stats" />">
+                        Thống kê
+                    </a>
+                </li>
+                <s:authorize access="hasAnyRole('USER', 'ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/" />">
+                            <s:authentication property="principal.username" />
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="<c:url value="/logout" />">
+                            Đăng xuất
+                        </a>
+                    </li>
+                </s:authorize>
             </ul>
         </div>
     </div>

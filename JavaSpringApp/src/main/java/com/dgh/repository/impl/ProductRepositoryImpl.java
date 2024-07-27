@@ -93,4 +93,11 @@ public class ProductRepositoryImpl implements ProductRepository {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Product.class, id);
     }
+    
+    @Override
+    public void deleteProduct(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Product p = this.getProduct(id);
+        s.delete(p);
+    }
 }
